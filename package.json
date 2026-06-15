@@ -1,0 +1,55 @@
+{
+  "name": "openclaw-nous-portal",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Nous Research inference API provider for OpenClaw",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "openclaw.plugin.json"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepack": "pnpm build"
+  },
+  "peerDependencies": {
+    "@openclaw/plugin-sdk": ">=2026.3.24-beta.2"
+  },
+  "devDependencies": {
+    "@openclaw/plugin-sdk": ">=2026.3.24-beta.2",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jasonalleno01/openclaw-nous-portal.git"
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "provider",
+    "nous",
+    "nous-research",
+    "llm",
+    "inference"
+  ],
+  "author": "Jason Allen O'Neal",
+  "license": "MIT"
+}
