@@ -2,6 +2,10 @@
 
 Nous Research inference API provider for [OpenClaw](https://github.com/openclaw/openclaw).
 
+## WIP / Maintenance Note
+
+This is a minimal provider package and should be treated as an integration draft until it has a real test suite and its model catalog and upstream endpoint behavior have been verified. The repository defines test commands, but currently contains no committed tests.
+
 ## Overview
 
 This provider connects OpenClaw to the **Nous Research Inference API** at `https://inference-api.nousresearch.com/v1` — an OpenAI-compatible endpoint hosting a wide range of models including:
