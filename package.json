@@ -1,37 +1,40 @@
 {
   "name": "openclaw-nous-portal",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "description": "Nous Portal provider plugin for OpenClaw with live model discovery.",
   "type": "module",
-  "description": "Nous Research inference API provider for OpenClaw",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
-    "openclaw.plugin.json"
+    "openclaw.plugin.json",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
-    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "prepack": "pnpm build"
+    "test": "vitest run",
+    "prepack": "npm run build"
   },
   "peerDependencies": {
-    "@openclaw/plugin-sdk": ">=2026.3.24-beta.2"
+    "openclaw": ">=2026.9.1"
   },
   "devDependencies": {
-    "@openclaw/plugin-sdk": ">=2026.3.24-beta.2",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "@types/node": "^24.0.0",
+    "openclaw": "2026.9.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "publishConfig": {
     "access": "public",
@@ -39,7 +42,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jasonalleno01/openclaw-nous-portal.git"
+    "url": "https://github.com/jason-allen-oneal/openclaw-nous-portal.git"
+  },
+  "homepage": "https://github.com/jason-allen-oneal/openclaw-nous-portal#readme",
+  "bugs": {
+    "url": "https://github.com/jason-allen-oneal/openclaw-nous-portal/issues"
   },
   "keywords": [
     "openclaw",
@@ -51,5 +58,26 @@
     "inference"
   ],
   "author": "Jason Allen O'Neal",
-  "license": "MIT"
+  "license": "MIT",
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ],
+    "install": {
+      "clawhubSpec": "clawhub:openclaw-nous-portal",
+      "defaultChoice": "clawhub",
+      "minHostVersion": ">=2026.9.1"
+    },
+    "compat": {
+      "pluginApi": ">=2026.9.1"
+    },
+    "build": {
+      "openclawVersion": "2026.9.1",
+      "bundledDist": true
+    },
+    "release": {
+      "publishToClawHub": true,
+      "publishToNpm": false
+    }
+  }
 }

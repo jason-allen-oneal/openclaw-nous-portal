@@ -1,0 +1,37 @@
+{
+    "id": "nous-portal",
+    "name": "Nous Portal",
+    "description": "Nous Research OpenAI-compatible inference provider with live model discovery",
+    "activation": { "onStartup": false },
+    "enabledByDefault": true,
+    "providers": ["nous-portal"],
+    "providerRequest": {
+        "providers": { "nous-portal": { "family": "openai-compatible" } }
+    },
+    "modelCatalog": { "discovery": { "nous-portal": "refreshable" } },
+    "setup": {
+        "providers": [{ "id": "nous-portal", "envVars": ["NOUS_API_KEY"] }]
+    },
+    "providerAuthChoices": [
+        {
+            "provider": "nous-portal",
+            "method": "api-key",
+            "choiceId": "nous-portal-api-key",
+            "appGuidedSecret": true,
+            "choiceLabel": "Nous Portal API key",
+            "groupId": "nous-portal",
+            "groupLabel": "Nous Research",
+            "groupHint": "OpenAI-compatible inference",
+            "optionKey": "nousPortalApiKey",
+            "cliFlag": "--nous-portal-api-key",
+            "cliOption": "--nous-portal-api-key <key>",
+            "cliDescription": "Nous Portal API key"
+        }
+    ],
+    "contracts": { "textProviders": ["nous-portal"] },
+    "configSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+    }
+}
