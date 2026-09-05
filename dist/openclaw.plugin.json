@@ -28,7 +28,6 @@
             "cliDescription": "Nous Portal API key"
         }
     ],
-    "contracts": { "textProviders": ["nous-portal"] },
     "configSchema": {
         "type": "object",
         "additionalProperties": false,

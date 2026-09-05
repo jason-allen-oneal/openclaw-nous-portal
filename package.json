@@ -1,6 +1,6 @@
 {
   "name": "openclaw-nous-portal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Nous Portal provider plugin for OpenClaw with live model discovery.",
   "type": "module",
   "main": "./dist/index.js",
