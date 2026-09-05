@@ -7,7 +7,7 @@
     "sourceMap": true,
     "moduleResolution": "bundler",
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2023"],
     "module": "ESNext",
     "strict": true,
     "esModuleInterop": true,
@@ -16,12 +16,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "types": ["vitest/globals", "node"],
-    "baseUrl": ".",
-    "paths": {
-      "@openclaw/plugin-sdk": ["node_modules/@openclaw/plugin-sdk"]
-    }
+    "types": ["vitest/globals", "node"]
   },
   "include": ["*.ts"],
-  "exclude": ["node_modules", "dist", "*.test.ts"]
+  "exclude": ["node_modules", "dist"]
 }
