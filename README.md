@@ -16,12 +16,6 @@ Configurable Nous Research inference provider for OpenClaw 2026.9.1 and newer.
 openclaw plugins install clawhub:openclaw-nous-portal
 ```
 
-The npm route is also supported:
-
-```bash
-openclaw plugins install npm:openclaw-nous-portal
-```
-
 ## Configure
 
 Run `openclaw onboard`, choose **Nous Portal**, and enter a Nous Portal API key through OpenClaw's protected secret prompt. `NOUS_API_KEY` is also recognized by OpenClaw's provider setup.
