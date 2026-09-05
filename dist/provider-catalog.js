@@ -28,6 +28,24 @@ function readPrice(value) {
         ? Number(price.toFixed(9))
         : undefined;
 }
+function readDisplayName(value, fallback) {
+    const name = normalizeOptionalString(value);
+    if (!name ||
+        name.length > 256 ||
+        /[\p{Cc}\u202A-\u202E\u2066-\u2069]/u.test(name)) {
+        return fallback;
+    }
+    return name;
+}
+function isUnavailableByExpiration(value, now = Date.now()) {
+    if (value === null || value === undefined || value === "")
+        return false;
+    const raw = normalizeOptionalString(value);
+    if (!raw)
+        return true;
+    const timestamp = Date.parse(raw);
+    return !Number.isFinite(timestamp) || timestamp <= now;
+}
 export function projectNousPortalModels(rows, fallback) {
     const seeds = new Map(fallback.models.map((model) => [model.id, model]));
     const models = new Map();
@@ -47,7 +65,7 @@ export function projectNousPortalModels(rows, fallback) {
             !contextWindow ||
             !inputs.includes("text") ||
             !outputs.includes("text") ||
-            normalizeOptionalString(record.expiration_date))
+            isUnavailableByExpiration(record.expiration_date))
             continue;
         const seed = seeds.get(id);
         const pricing = asOptionalRecord(record.pricing);
@@ -56,7 +74,7 @@ export function projectNousPortalModels(rows, fallback) {
         models.set(id, {
             ...seed,
             id,
-            name: normalizeOptionalString(record.name) ?? id,
+            name: readDisplayName(record.name, id),
             reasoning: reasoning?.mandatory === true ||
                 reasoning?.default_enabled === true ||
                 parameters.includes("reasoning") ||

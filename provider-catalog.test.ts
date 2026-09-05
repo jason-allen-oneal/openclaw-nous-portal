@@ -51,7 +51,7 @@ describe("Nous Portal model catalog", () => {
   it("rejects malformed, expired, and non-chat catalog rows", () => {
     const invalid = [
       { ...row, id: "bad id" },
-      { ...row, id: "expired", expiration_date: "2026-01-01" },
+      { ...row, id: "expired", expiration_date: "2000-01-01T00:00:00Z" },
       {
         ...row,
         id: "embedding",
@@ -70,6 +70,38 @@ describe("Nous Portal model catalog", () => {
     expect(projectNousPortalModels(invalid, buildNousPortalProvider())).toEqual(
       [],
     );
+  });
+
+  it("keeps future-dated models and fails closed on malformed expiration dates", () => {
+    const models = projectNousPortalModels(
+      [
+        { ...row, id: "future", expiration_date: "2999-01-01T00:00:00Z" },
+        { ...row, id: "malformed", expiration_date: "not-a-timestamp" },
+      ],
+      buildNousPortalProvider(),
+    );
+    expect(models.map((model) => model.id)).toEqual(["future"]);
+  });
+
+  it.each([
+    ["multiline", "Model\nInjected"],
+    ["control character", "Model\u0007Injected"],
+    ["bidi override", "Model\u202eInjected"],
+    ["bidi isolate", "Model\u2067Injected"],
+    ["oversized", "x".repeat(257)],
+  ])("falls back to the model id for a %s display name", (_case, name) => {
+    expect(
+      projectNousPortalModels([{ ...row, name }], buildNousPortalProvider())[0]
+        ?.name,
+    ).toBe(row.id);
+  });
+
+  it("accepts a display name at the 256-character boundary", () => {
+    const name = "x".repeat(256);
+    expect(
+      projectNousPortalModels([{ ...row, name }], buildNousPortalProvider())[0]
+        ?.name,
+    ).toBe(name);
   });
 
   it("pins discovery to the canonical endpoint so proxy credentials are not leaked", () => {

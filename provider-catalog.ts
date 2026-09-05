@@ -43,6 +43,26 @@ function readPrice(value: unknown): number | undefined {
     : undefined;
 }
 
+function readDisplayName(value: unknown, fallback: string): string {
+  const name = normalizeOptionalString(value);
+  if (
+    !name ||
+    name.length > 256 ||
+    /[\p{Cc}\u202A-\u202E\u2066-\u2069]/u.test(name)
+  ) {
+    return fallback;
+  }
+  return name;
+}
+
+function isUnavailableByExpiration(value: unknown, now = Date.now()): boolean {
+  if (value === null || value === undefined || value === "") return false;
+  const raw = normalizeOptionalString(value);
+  if (!raw) return true;
+  const timestamp = Date.parse(raw);
+  return !Number.isFinite(timestamp) || timestamp <= now;
+}
+
 export function projectNousPortalModels(
   rows: readonly unknown[],
   fallback: ModelProviderConfig,
@@ -67,7 +87,7 @@ export function projectNousPortalModels(
       !contextWindow ||
       !inputs.includes("text") ||
       !outputs.includes("text") ||
-      normalizeOptionalString(record.expiration_date)
+      isUnavailableByExpiration(record.expiration_date)
     )
       continue;
     const seed = seeds.get(id);
@@ -77,7 +97,7 @@ export function projectNousPortalModels(
     models.set(id, {
       ...seed,
       id,
-      name: normalizeOptionalString(record.name) ?? id,
+      name: readDisplayName(record.name, id),
       reasoning:
         reasoning?.mandatory === true ||
         reasoning?.default_enabled === true ||

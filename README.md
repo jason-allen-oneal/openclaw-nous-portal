@@ -26,10 +26,11 @@ openclaw plugins install npm:openclaw-nous-portal
 
 Run `openclaw onboard`, choose **Nous Portal**, and enter a Nous Portal API key through OpenClaw's protected secret prompt. `NOUS_API_KEY` is also recognized by OpenClaw's provider setup.
 
-The default model is `nous-portal/inclusionai/ling-3.0-flash-sante:free`. Browse the current catalog with:
+The default model is `nous-portal/inclusionai/ling-3.0-flash-sante:free`. Refresh and browse the current catalog with:
 
 ```bash
-openclaw models list --provider nous-portal
+openclaw models refresh
+openclaw models list --all --provider nous-portal
 ```
 
 Select another discovered model in normal OpenClaw model configuration, using the `nous-portal/<model-id>` reference.
@@ -44,14 +45,22 @@ Configure a custom OpenAI-compatible endpoint under the normal OpenClaw provider
     "providers": {
       "nous-portal": {
         "baseUrl": "https://proxy.example/v1",
-        "models": []
+        "models": [
+          {
+            "id": "vendor/model-id",
+            "name": "Vendor Model",
+            "input": ["text"],
+            "contextWindow": 131072,
+            "maxTokens": 8192
+          }
+        ]
       }
     }
   }
 }
 ```
 
-Live Nous discovery is disabled for a custom base URL. This prevents a custom endpoint credential from being sent to Nous Research. The configured models remain usable.
+Live Nous discovery is disabled for a custom base URL. This prevents a custom endpoint credential from being sent to Nous Research. Populate `models` explicitly for that endpoint; those configured models remain usable.
 
 ## Discovery and fallback behavior
 
